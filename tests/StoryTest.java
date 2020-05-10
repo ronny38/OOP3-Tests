@@ -35,12 +35,12 @@ public class StoryTest extends StoryTestParent1 {
     }
 
     @Given("A")
-    public void A3() {
+    private void A3() {
         a = new A();
     }
 
     @When("A's y is &y")
-    public void A_y(String y) {
+    private void A_y(String y) {
         if (y.equals("true")) {
             a.setY(true);
         } else {
@@ -54,7 +54,7 @@ public class StoryTest extends StoryTestParent1 {
     }
 
     @When("A's z is &z")
-    public void A_z(String z) {
+    private void A_z(String z) {
         a.setZ(z);
     }
 
@@ -71,7 +71,7 @@ public class StoryTest extends StoryTestParent1 {
     }
 
     @Then("A's y is &y")
-    public void isY(String y) {
+    private void isY(String y) {
         try {
             Assert.assertEquals(y.equals("true"), a.getY());
         }

@@ -13,7 +13,7 @@ public class StoryTestParent2 {
      * This one should never be invoked!
      */
     @Given("B")
-    public void B() throws WrongMethodException {
+    public void B2() throws WrongMethodException {
         throw new WrongMethodException();
     }
 

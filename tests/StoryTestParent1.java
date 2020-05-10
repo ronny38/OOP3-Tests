@@ -13,24 +13,24 @@ public class StoryTestParent1 extends StoryTestParent2 {
      * This one should never be invoked!
      */
     @Given("A")
-    public void A3() throws WrongMethodException {
+    public void A3_2() throws WrongMethodException {
         throw new WrongMethodException();
     }
 
 
     @Given("B")
-    public void B() {
+    private void B() {
         b = new B();
     }
 
     @When("B's x is &num and B's y is &str")
-    public void setXY_B(Integer num, String str) {
+    protected void setXY_B(Integer num, String str) {
         b.setX(num);
         b.setY(str);
     }
 
     @Then("B's x is &num")
-    public void isX_B(Integer num) {
+    private void isX_B(Integer num) {
         try {
             Assert.assertEquals(num, b.getX());
         }
@@ -43,7 +43,7 @@ public class StoryTestParent1 extends StoryTestParent2 {
      * This one should never be invoked!
      */
     @When("B's x is &num")
-    public void setX_B3(Integer num) throws WrongMethodException {
+    private void setX_B3(Integer num) throws WrongMethodException {
         throw new WrongMethodException();
     }
 }
