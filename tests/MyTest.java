@@ -19,6 +19,7 @@ public class MyTest {
     private String Story5_3;
     private String Story6;
     private String Story7;
+    private String Story8;
     private Class<?> testClass;
 
     @Before
@@ -70,9 +71,18 @@ public class MyTest {
                 + "Then A's x is 4 or A's y is false" // Should fail.
         ;
 
+        Story8 = "Given B\n"
+                + "When B's y is Word\n"
+                + "Then B's x is 1"; // Should succeed.
+
         testClass = StoryTest.class;
         tester = new StoryTesterImpl();
     }
+
+    /**
+     * Tests 1-8 use class A.
+     * Tests 9 and above use class B.
+     */
 
     /**
      * A simple first test that should succeed.
@@ -253,6 +263,19 @@ public class MyTest {
             Assert.assertEquals(actual, e.getTestResult());
         }
         catch (ThenNotFoundException e) {
+            Assert.fail();
+        }
+    }
+
+    /**
+     * This one checks that your method-finding algorithm is correct.
+     */
+    @Test
+    public void test8() throws Exception {
+        try {
+            tester.testOnInheritanceTree(Story8, testClass);
+            Assert.assertTrue(true);
+        } catch (StoryTestException | WrongMethodException e) {
             Assert.fail();
         }
     }

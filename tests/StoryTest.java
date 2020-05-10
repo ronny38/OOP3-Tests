@@ -94,4 +94,10 @@ public class StoryTest extends StoryTestParent1 {
     public void setXifY(Integer x) {
         if (a.getY()) a.setX(x);
     }
+
+    @When("B's x is &num")
+    public void setX_B(Integer num) {
+        b.setX(num);
+    }
+
 }
