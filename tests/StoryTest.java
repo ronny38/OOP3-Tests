@@ -1,0 +1,97 @@
+package tests;
+
+import org.junit.Assert;
+
+import Solution.Given;
+import Solution.Then;
+import Solution.When;
+import org.junit.ComparisonFailure;
+
+/**
+ * Notice: Some of the methods are to be found up the hierarchy tree.
+ */
+public class StoryTest extends StoryTestParent1 {
+    private A a;
+
+    @Given("A of x &x")
+    public void A1(Integer x) {
+        a = new A(x);
+    }
+
+    @Then("A's x is &x")
+    public void isX(Integer x) {
+        try {
+            Assert.assertEquals(x, a.getX());
+        }
+        catch (Throwable e) {
+            throw new ComparisonFailure(null, x.toString(), a.getX().toString());
+        }
+    }
+
+
+    @Given("A of x &x and of z &z")
+    public void A2(Integer x, String z) {
+        a = new A(x, z);
+    }
+
+    @Given("A")
+    public void A3() {
+        a = new A();
+    }
+
+    @When("A's y is &y")
+    public void A_y(String y) {
+        if (y.equals("true")) {
+            a.setY(true);
+        } else {
+            a.setY(false);
+        }
+    }
+
+    @When("A's x is &x")
+    public void A_x(Integer x) {
+        a.setX(x);
+    }
+
+    @When("A's z is &z")
+    public void A_z(String z) {
+        a.setZ(z);
+    }
+
+    @When("A's x is &x and y is &y")
+    public void A_xy(Integer x, String y) {
+        A_x(x);
+        A_y(y);
+    }
+
+    @When("A's x is &x and y is &y and z is &z")
+    public void A_xyz(Integer x, String y, String z) {
+        A_xy(x, y);
+        A_z(z);
+    }
+
+    @Then("A's y is &y")
+    public void isY(String y) {
+        try {
+            Assert.assertEquals(y.equals("true"), a.getY());
+        }
+        catch (Throwable e) {
+            throw new ComparisonFailure(null, y, a.getY().equals(true) ? "true" : "false");
+        }
+    }
+
+    @Then("A's z is &z")
+    public void isZ(String z) {
+        try {
+            Assert.assertEquals(z, a.getZ());
+        }
+        catch (Throwable e) {
+            throw new ComparisonFailure(null, z, a.getZ());
+    }
+    }
+
+    @When("A's conditional x is &num")
+    public void setXifY(Integer x) {
+        if (a.getY()) a.setX(x);
+    }
+}
