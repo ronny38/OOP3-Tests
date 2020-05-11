@@ -18,7 +18,7 @@ public class StoryTestParent2 {
     }
 
     @When("B's y is &str")
-    public void setXY_B(String str) {
+    public void setY_B1(String str) {
         b.setY(str);
     }
 

@@ -51,7 +51,7 @@ public class MyTest {
 
         Story5_3 = "Given A of x 55\n"
                 + "When A's z is DOESN'T_MATTER\n"
-                + "Then NOT_TO_BE_FOUND"; // Shouldn't get here - should throw an exception.
+                + "Then NOT_TO_BE_FOUND"; // Should throw an exception.
 
         Story6 = "Given A of x 54\n"
                 + "When A's y is true\n"

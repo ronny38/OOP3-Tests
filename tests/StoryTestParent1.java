@@ -24,7 +24,7 @@ public class StoryTestParent1 extends StoryTestParent2 {
     }
 
     @When("B's x is &num and B's y is &str")
-    protected void setXY_B(Integer num, String str) {
+    protected void setXY_B5(Integer num, String str) {
         b.setX(num);
         b.setY(str);
     }
