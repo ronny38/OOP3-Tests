@@ -23,6 +23,7 @@ public class MyTest {
     private String Story9_1;
     private String Story9_2;
     private String Story9_3;
+    private String Story10;
     private Class<?> testClass;
 
     @Before
@@ -90,13 +91,21 @@ public class MyTest {
                 + "When B's x is 4\n" // This one should not be found! As this method belongs to StoryTest class and not to the inner classes.
                 + "Then B's y is Word"; // Shouldn't get here - should throw an exception.
 
+        Story10 = "Given C of x 4\n"
+                + "When C's y is 3\n"
+                + "Then C's y is 2\n" // Should fail.
+                + "When DO_NOTHING\n"
+                + "Then C's y is 2" // This one should succeed (backed-up).
+        ;
+
         testClass = StoryTest.class;
         tester = new StoryTesterImpl();
     }
 
     /**
-     * Tests 1-8 use class A.
-     * Tests 9 and above use class B.
+     * Tests 1-7 use class A.
+     * Tests 8-9 use class B.
+     * Test 10 and above use class C.
      */
 
     /**
@@ -337,5 +346,25 @@ public class MyTest {
         t.test9_1();
         t.test9_2();
         t.test9_3();
+    }
+
+    /**
+     * This one checks your back-up for inner classes.
+     */
+    @Test
+    public void test10() throws Exception {
+        try {
+            tester.testOnNestedClasses(Story10, testClass);
+            Assert.fail();
+        } catch (StoryTestException e) {
+            Assert.assertEquals("Then C's y is 2", e.getSentence());
+            Assert.assertEquals(1, e.getNumFail()); // If this fails, it means your back-up is wrong.
+            List<String> expected = new LinkedList<>();
+            expected.add("2");
+            Assert.assertEquals(expected, e.getStoryExpected());
+            List<String> actual = new LinkedList<>();
+            actual.add("3");
+            Assert.assertEquals(actual, e.getTestResult());
+        }
     }
 }

@@ -48,7 +48,7 @@ public class StoryTestParent2 {
         throw new WrongMethodException();
     }
 
-    class StoryTestInnerParent2 {
+    class StoryTestInner1Parent2 {
 
     }
 

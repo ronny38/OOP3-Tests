@@ -47,7 +47,7 @@ public class StoryTestParent1 extends StoryTestParent2 {
         throw new WrongMethodException();
     }
 
-    class StoryTestInnerParent1 extends StoryTestInnerParent2 {
+    class StoryTestInner1Parent1 extends StoryTestInner1Parent2 {
 
         @Then("B's y is &str")
         private void isY_B6(String str) {

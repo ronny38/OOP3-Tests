@@ -95,7 +95,7 @@ public class StoryTest extends StoryTestParent1 {
         b.setX(num);
     }
 
-    class StoryTestInner extends StoryTestInnerParent1 {
+    class StoryTestInner1 extends StoryTestInner1Parent1 {
 
         @Given("B DerivedConstructor &param")
         private void derivedB1(Integer param) {b = new B(param);}
@@ -106,6 +106,39 @@ public class StoryTest extends StoryTestParent1 {
             b.setY(str);
         }
 
+    }
+
+    class StoryTestInner2 {
+        private C c;
+
+        @Given("C of x &num")
+        private void C(Integer num) {c = new C(num);}
+
+        @When("C's y is &num")
+        protected void setY(Integer num) {c.setY(num);}
+
+        @Then("C's x is &x")
+        void isX(Integer x) {
+            try {
+                Assert.assertEquals(x, c.getX());
+            }
+            catch (Throwable e) {
+                throw new ComparisonFailure(null, x.toString(), c.getX().toString());
+            }
+        }
+
+        @Then("C's y is &y")
+        void isY(Integer y) {
+            try {
+                Assert.assertEquals(y, c.getY());
+            }
+            catch (Throwable e) {
+                throw new ComparisonFailure(null, y.toString(), c.getY().toString());
+            }
+        }
+
+        @When("DO_NOTHING")
+        private void nothing() {return;}
     }
 
 }
