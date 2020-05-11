@@ -34,11 +34,6 @@ public class StoryTest extends StoryTestParent1 {
         a = new A(x, z);
     }
 
-    @Given("A")
-    private void A3() {
-        a = new A();
-    }
-
     @When("A's y is &y")
     private void A_y(String y) {
         if (y.equals("true")) {
@@ -98,6 +93,19 @@ public class StoryTest extends StoryTestParent1 {
     @When("B's x is &num")
     public void setX_B(Integer num) {
         b.setX(num);
+    }
+
+    class StoryTestInner extends StoryTestInnerParent1 {
+
+        @Given("B DerivedConstructor &param")
+        private void derivedB1(Integer param) {b = new B(param);}
+
+        @When("B's x is &num and B's y is &str")
+        protected void setXY_B56(Integer num, String str) {
+            b.setX(num);
+            b.setY(str);
+        }
+
     }
 
 }

@@ -12,8 +12,8 @@ public class StoryTestParent2 {
     /**
      * This one should never be invoked!
      */
-    @Given("B")
-    public void B2() throws WrongMethodException {
+    @Given("B of x &num")
+    public void B2(Integer _x) throws WrongMethodException {
         throw new WrongMethodException();
     }
 
@@ -46,6 +46,10 @@ public class StoryTestParent2 {
     @When("B's x is &num and B's y is &str")
     public void setXY_B2(Integer num, String str) throws WrongMethodException {
         throw new WrongMethodException();
+    }
+
+    class StoryTestInnerParent2 {
+
     }
 
 }

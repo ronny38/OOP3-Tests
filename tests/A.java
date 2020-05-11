@@ -6,14 +6,6 @@ public class A implements Cloneable {
     public String z;
 
     // Constructors
-    /**
-     * Default constructor.
-     */
-    public A() {
-        x = 3;
-        y = true;
-        z = "Default";
-    }
 
     public A(Integer _x) {
         x = _x;
@@ -42,8 +34,7 @@ public class A implements Cloneable {
      */
     @Override
     public A clone() {
-       A res = new A();
-       res.x = this.x;
+       A res = new A(this.x);
        res.y = this.y;
        res.z = this.z;
        return res;

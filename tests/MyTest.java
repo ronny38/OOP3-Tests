@@ -20,11 +20,14 @@ public class MyTest {
     private String Story6;
     private String Story7;
     private String Story8;
+    private String Story9_1;
+    private String Story9_2;
+    private String Story9_3;
     private Class<?> testClass;
 
     @Before
     public void setUp() {
-        Story1 = "Given A\n"
+        Story1 = "Given A of x 4\n"
                 + "When A's y is true\n"
                 + "Then A's y is true"; // Should succeed.
 
@@ -45,13 +48,13 @@ public class MyTest {
                 + "When NOT_TO_BE_FOUND\n"
                 + "Then A's y is false or A's x is -3"; // Shouldn't get here - should throw an exception.
 
-        Story5_2 = "Given NOT_TO_BE_FOUND\n"
-                + "When NOT_TO_BE_FOUND\n"
+        Story5_2 = "Given NOT_TO_BE_FOUND 4\n"
+                + "When NOT_TO_BE_FOUND 4\n"
                 + "Then A's y is false or A's x is -3"; // Shouldn't get here - should throw an exception.
 
         Story5_3 = "Given A of x 55\n"
                 + "When A's z is DOESN'T_MATTER\n"
-                + "Then NOT_TO_BE_FOUND"; // Should throw an exception.
+                + "Then NOT_TO_BE_FOUND 4"; // Should throw an exception.
 
         Story6 = "Given A of x 54\n"
                 + "When A's y is true\n"
@@ -71,9 +74,21 @@ public class MyTest {
                 + "Then A's x is 4 or A's y is false" // Should fail.
         ;
 
-        Story8 = "Given B\n"
+        Story8 = "Given B of x 1\n"
                 + "When B's y is Word\n"
                 + "Then B's x is 1"; // Should succeed.
+
+        Story9_1 = "Given B DerivedConstructor 4\n" // Shouldn't find this method.
+                + "When B's y is Word\n"
+                + "Then B's x is 1";
+
+        Story9_2 = "Given B DerivedConstructor 4\n"
+                + "When B's x is 4 and B's y is Word\n"
+                + "Then B's y is Word"; // Should succeed.
+
+        Story9_3 = "Given B DerivedConstructor 4\n"
+                + "When B's x is 4\n" // This one should not be found! As this method belongs to StoryTest class and not to the inner classes.
+                + "Then B's y is Word"; // Shouldn't get here - should throw an exception.
 
         testClass = StoryTest.class;
         tester = new StoryTesterImpl();
@@ -268,7 +283,7 @@ public class MyTest {
     }
 
     /**
-     * This one checks that your method-finding algorithm is correct.
+     * This one checks that your method-finding algorithm is correct (InheritanceTree).
      */
     @Test
     public void test8() throws Exception {
@@ -278,5 +293,49 @@ public class MyTest {
         } catch (StoryTestException | WrongMethodException e) {
             Assert.fail();
         }
+    }
+
+    /**
+     * This one checks that your method-finding algorithm is correct (Nested class).
+     */
+    @Test
+    public void test9() {
+        class mini_tests {
+            public void test9_1() {
+                try {
+                    tester.testOnInheritanceTree(Story9_1, testClass);
+                    Assert.fail();
+                } catch (GivenNotFoundException e) {
+                    Assert.assertTrue(true);
+                }
+                catch (Throwable e) {
+                    Assert.fail();
+                }
+            }
+            public void test9_2() {
+                try {
+                    tester.testOnNestedClasses(Story9_2, testClass);
+                    Assert.assertTrue(true);
+                }
+                catch (Throwable e) {
+                    Assert.fail();
+                }
+            }
+            public void test9_3() {
+                try {
+                    tester.testOnNestedClasses(Story9_3, testClass);
+                    Assert.fail();
+                } catch (WhenNotFoundException e) {
+                    Assert.assertTrue(true);
+                }
+                catch (Throwable e) {
+                    Assert.fail();
+                }
+            }
+        }
+        mini_tests t = new mini_tests();
+        t.test9_1();
+        t.test9_2();
+        t.test9_3();
     }
 }

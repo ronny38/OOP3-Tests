@@ -4,8 +4,8 @@ public class B {
     private Integer x;
     private String y;
 
-    public B() {
-        x = 1;
+    public B(Integer _x) {
+        x = _x;
         y = "Hello";
     }
 
