@@ -24,6 +24,8 @@ public class MyTest {
     private String Story9_2;
     private String Story9_3;
     private String Story10;
+    private String Story11;
+    private String Story12;
     private Class<?> testClass;
 
     @Before
@@ -96,6 +98,16 @@ public class MyTest {
                 + "Then C's y is 2\n" // Should fail.
                 + "When DO_NOTHING\n"
                 + "Then C's y is 2" // This one should succeed (backed-up).
+        ;
+
+        Story11 = "Given C of Inner x 4\n"
+                + "When C's y is 3\n" // Shouldn't be found.
+                + "Then DOESN'NT_MATTER\n" // shouldn't get here
+        ;
+
+        Story12 = "Given C of Inner x 4\n"
+                + "When C's Inner y is 3\n"
+                + "Then C's Inner y is 2 or C's Inner x is 4\n" // Should succeed.
         ;
 
         testClass = StoryTest.class;
@@ -365,6 +377,32 @@ public class MyTest {
             List<String> actual = new LinkedList<>();
             actual.add("3");
             Assert.assertEquals(actual, e.getTestResult());
+        }
+    }
+
+    /**
+     * This one checks a 4-level nested test class - method matching algorithm.
+     */
+    @Test
+    public void test11() throws Exception {
+        try {
+            tester.testOnNestedClasses(Story11, testClass);
+            Assert.fail();
+        } catch (WhenNotFoundException e) {
+            Assert.assertTrue(true);
+        }
+    }
+
+    /**
+     * This one checks a 4-level nested test class - successful story.
+     */
+    @Test
+    public void test12() throws Exception {
+        try {
+            tester.testOnNestedClasses(Story12, testClass);
+            Assert.assertTrue(true);
+        } catch (StoryTestException e) {
+            Assert.fail();
         }
     }
 }

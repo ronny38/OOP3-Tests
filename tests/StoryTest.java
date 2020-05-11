@@ -141,4 +141,39 @@ public class StoryTest extends StoryTestParent1 {
         private void nothing() {return;}
     }
 
+    class Inner1 {
+        protected C c;
+        class Inner2 {
+            class Inner3 {
+                class Inner4 {
+                    @Given("C of Inner x &num")
+                    private void C654(Integer num) {c = new C(num);}
+
+                    @When("C's Inner y is &num")
+                    protected void setY654(Integer num) {c.setY(num);}
+
+                    @Then("C's Inner y is &y")
+                    void isY654(Integer y) {
+                        try {
+                            Assert.assertEquals(y, c.getY());
+                        }
+                        catch (Throwable e) {
+                            throw new ComparisonFailure(null, y.toString(), c.getY().toString());
+                        }
+                    }
+
+                    @Then("C's Inner x is &y")
+                    void isX654(Integer x) {
+                        try {
+                            Assert.assertEquals(x, c.getX());
+                        }
+                        catch (Throwable e) {
+                            throw new ComparisonFailure(null, x.toString(), c.getX().toString());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
