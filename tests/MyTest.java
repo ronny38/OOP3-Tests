@@ -102,7 +102,7 @@ public class MyTest {
 
         Story11 = "Given C of Inner x 4\n"
                 + "When C's y is 3\n" // Shouldn't be found.
-                + "Then DOESN'NT_MATTER\n" // shouldn't get here
+                + "Then DOESN'NT_MATTER\n" // Shouldn't get here.
         ;
 
         Story12 = "Given C of Inner x 4\n"
