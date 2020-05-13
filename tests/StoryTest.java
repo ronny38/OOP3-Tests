@@ -143,6 +143,13 @@ public class StoryTest extends StoryTestParent1 {
 
     class Inner1 {
         protected C c;
+        class i1 {
+            class i2{
+                class i3{
+
+                }
+            }
+        }
         class Inner2 {
             class Inner3 {
                 class Inner4 {
@@ -172,6 +179,14 @@ public class StoryTest extends StoryTestParent1 {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    class j1{
+        class j2{
+            class j3{
+
             }
         }
     }
