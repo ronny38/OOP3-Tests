@@ -96,13 +96,13 @@ public class MyTest {
         Story10 = "Given C of x 4\n"
                 + "When C's y is 3\n"
                 + "Then C's y is 2\n" // Should fail.
-                + "When DO_NOTHING\n"
+                + "When DO NOTHING\n"
                 + "Then C's y is 2" // This one should succeed (backed-up).
         ;
 
         Story11 = "Given C of Inner x 4\n"
                 + "When C's y is 3\n" // Shouldn't be found.
-                + "Then DOESN'NT_MATTER\n" // Shouldn't get here.
+                + "Then DOESN'T_MATTER\n" // Shouldn't get here.
         ;
 
         Story12 = "Given C of Inner x 4\n"

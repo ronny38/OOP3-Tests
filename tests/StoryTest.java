@@ -137,8 +137,8 @@ public class StoryTest extends StoryTestParent1 {
             }
         }
 
-        @When("DO_NOTHING")
-        private void nothing() {return;}
+        @When("DO &NOTHING")
+        private void nothing(String NOTHING) {return;}
     }
 
     class Inner1 {
