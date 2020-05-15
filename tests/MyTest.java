@@ -45,15 +45,15 @@ public class MyTest {
 
         Story3 = "Given A of x -3\n"
                 + "When A's y is true\n"
-                + "Then A's y is false or A's x is -3"; // Should succeed.
+                + "Then A's x is 6 or A's x is -3"; // Should succeed.
 
         Story5_1 = "Given A of x 3\n"
-                + "When NOT_TO_BE_FOUND\n"
-                + "Then A's y is false or A's x is -3"; // Shouldn't get here - should throw an exception.
+                + "When NOT_TO_BE_FOUND 5\n"
+                + "Then A's x is 7 or A's x is -3"; // Shouldn't get here - should throw an exception.
 
         Story5_2 = "Given NOT_TO_BE_FOUND 4\n"
                 + "When NOT_TO_BE_FOUND 4\n"
-                + "Then A's y is false or A's x is -3"; // Shouldn't get here - should throw an exception.
+                + "Then A's x is 4 or A's x is -3"; // Shouldn't get here - should throw an exception.
 
         Story5_3 = "Given A of x 55\n"
                 + "When A's z is DOESN'T_MATTER\n"
@@ -61,20 +61,20 @@ public class MyTest {
 
         Story6 = "Given A of x 54\n"
                 + "When A's y is true\n"
-                + "Then A's y is true or NOT_TO_BE_FOUND"; // This one should succeed and not throw an exception.
+                + "Then A's x is 54 or A's x is 1024"; // This one should succeed and not throw an exception (In this test evaluation with 1024 throws a NotShortCircuitException).
 
         Story7 = "Given A of x 4 and of z Word\n"
                 + "When A's conditional x is 50\n" // Sets x to 50, as y is true by default.
                 + "Then A's x is 50\n" // Should succeed.
                 + "When A's y is false\n"
                 + "When A's z is WORD\n"
-                + "Then A's z is Word or A's y is true or A's x is 4\n" // Should fail.
+                + "Then A's z is Word or A's z is WORd or A's z is word or A's z is WOrd\n" // Should fail.
                 + "When A's y is false\n"
-                + "Then A's z is Word or A's y is true or A's x is 4\n" // Now it should succeed (backed-up).
+                + "Then A's z is Word\n" // Now it should succeed (backed-up).
                 + "When A's y is false\n"
-                + "Then A's y is true or A's z is Word or NOT_TO_BE_FOUND\n" // Should succeed (thanks to the 2nd expression).
+                + "Then A's z is SOMETHING or A's z is Word or A's z is Exception\n" // Should succeed (thanks to the 2nd expression).
                 + "When A's x is -5 and y is true and z is Word\n"
-                + "Then A's x is 4 or A's y is false" // Should fail.
+                + "Then A's x is 4 or A's x is -4" // Should fail.
         ;
 
         Story8 = "Given B of x 1\n"
@@ -102,12 +102,12 @@ public class MyTest {
 
         Story11 = "Given C of Inner x 4\n"
                 + "When C's y is 3\n" // Shouldn't be found.
-                + "Then DOESN'T_MATTER\n" // Shouldn't get here.
+                + "Then DOESN'T_MATTER 8\n" // Shouldn't get here.
         ;
 
         Story12 = "Given C of Inner x 4\n"
                 + "When C's Inner y is 3\n"
-                + "Then C's Inner y is 2 or C's Inner x is 4\n" // Should succeed.
+                + "Then C's Inner y is 2 or C's Inner y is 3\n" // Should succeed.
         ;
 
         testClass = StoryTest.class;
@@ -264,14 +264,14 @@ public class MyTest {
 
     /**
      * This one checks your "short-circuit evaluation" in the Then sentence.
-     * If you throw an exception (ThenNotFoundException) then your evaluation isn't short-circuit.
+     * If you throw an exception (NotShortCircuitException) then your evaluation isn't short-circuit.
      */
     @Test
     public void test6() throws Exception {
         try {
             tester.testOnInheritanceTree(Story6, testClass);
             Assert.assertTrue(true);
-        } catch (ThenNotFoundException e) {
+        } catch (NotShortCircuitException e) {
             Assert.fail();
         }
     }
@@ -285,17 +285,19 @@ public class MyTest {
             tester.testOnInheritanceTree(Story7, testClass);
             Assert.fail();
         } catch (StoryTestException e) {
-            Assert.assertEquals("Then A's z is Word or A's y is true or A's x is 4", e.getSentence());
+            Assert.assertEquals("Then A's z is Word or A's z is WORd or A's z is word or A's z is WOrd", e.getSentence());
             Assert.assertEquals(2, e.getNumFail());
             List<String> expected = new LinkedList<>();
             expected.add("Word");
-            expected.add("true");
-            expected.add("4");
+            expected.add("WORd");
+            expected.add("word");
+            expected.add("WOrd");
             Assert.assertEquals(expected, e.getStoryExpected());
             List<String> actual = new LinkedList<>();
             actual.add("WORD");
-            actual.add("false");
-            actual.add("50");
+            actual.add("WORD");
+            actual.add("WORD");
+            actual.add("WORD");
             Assert.assertEquals(actual, e.getTestResult());
         }
         catch (ThenNotFoundException e) {
